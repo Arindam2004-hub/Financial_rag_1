@@ -82,7 +82,7 @@ User Upload PDF
 1. Go to [Pinecone Console](https://app.pinecone.io/)
 2. Create a new index:
    - **Name:** `financial-rag`
-   - **Dimensions:** `1024`
+   - **Dimensions:** `2048`
    - **Metric:** `cosine`
    - **Cloud:** Any (AWS/GCP/Azure)
 3. Copy your API key
