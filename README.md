@@ -72,7 +72,6 @@ User Upload PDF
 ## 📋 Prerequisites
 
 - **Python 3.10+**
-- **Node.js 18+** and **npm**
 - **Pinecone** account with an index (1024 dimensions, cosine metric)
 - **NVIDIA NIM API** keys (for embeddings and LLM)
 
@@ -104,58 +103,9 @@ cd new_const_project
 # PINECONE_INDEX_NAME=financial-rag
 ```
 
-### 2. Backend Setup
 
-```bash
-# Create virtual environment
-python -m venv .venv
 
-# Activate (Windows)
-.venv\Scripts\activate
 
-# Install dependencies
-pip install -r backend/requirements.txt
-
-# Start the FastAPI server
-uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-The API will be available at `http://localhost:8000`  
-Interactive docs at `http://localhost:8000/docs`
-
-### 3. Frontend Setup
-
-```bash
-cd frontend
-
-# Install dependencies
-npm install
-
-# Start dev server (proxies API calls to backend)
-npm run dev
-```
-
-The app will be available at `http://localhost:5173`
-
----
-
-## 📡 API Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/health` | GET | Health check with service status |
-| `/api/upload` | POST | Upload PDF → extract → chunk → embed → index |
-| `/api/chat` | POST | `{ "question": "...", "session_id": "..." }` |
-| `/api/history` | GET | Get chat history for a session |
-| `/api/history` | DELETE | Clear chat history |
-
-### Example Chat Request
-
-```bash
-curl -X POST http://localhost:8000/api/chat \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What is the total debit amount?", "session_id": "default"}'
-```
 
 ### Response Structure
 
@@ -188,36 +138,8 @@ curl -X POST http://localhost:8000/api/chat \
 new_const_project/
 ├── .env                        # API keys (NVIDIA, Pinecone)
 ├── README.md
-├── backend/
-│   ├── __init__.py
-│   ├── main.py                 # FastAPI app with endpoints
-│   ├── config.py               # Environment configuration
-│   ├── requirements.txt        # Python dependencies
-│   ├── models/
-│   │   ├── __init__.py
-│   │   └── schemas.py          # Pydantic request/response models
-│   └── services/
-│       ├── __init__.py
-│       ├── pdf_service.py      # PDF extraction & chunking
-│       ├── rag_service.py      # Hybrid retrieval + reranking
-│       ├── calculator.py       # Deterministic Python calculations
-│       └── llm_service.py      # LLM prompting with citations
-├── frontend/
-│   ├── package.json
-│   ├── vite.config.js
-│   ├── index.html
-│   └── src/
-│       ├── main.jsx
-│       ├── App.jsx             # Root app component
-│       ├── index.css           # Design system (dark theme)
-│       ├── api/
-│       │   └── client.js       # Axios API client
-│       └── components/
-│           ├── Sidebar.jsx     # Upload + pipeline status
-│           ├── ChatPanel.jsx   # Chat interface
-│           ├── ChatMessage.jsx # Message with citations
-│           ├── FileUpload.jsx  # Drag-and-drop upload
-│           └── LoadingStates.jsx # Thinking indicators
+├── requirements.txt
+│ 
 ├── main.py                     # Original CLI prototype
 └── app.py                      # Original Streamlit prototype
 ```
