@@ -74,10 +74,7 @@ def get_pinecone_index():
 
 @st.cache_resource
 def get_cross_encoder():
-    # cross-encoder/ms-marco-MiniLM-L-6-v2
-    # Trained on 500k MS MARCO search queries
-    # Scores (query, doc) pair together — much more precise than cosine similarity
-    # Runs locally, FREE, no API key needed
+
     return CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
 def clean_dataframe(df):
@@ -485,41 +482,3 @@ else:
                     except Exception as e:
                         st.error(f"Error: {str(e)}")
             st.rerun()
-
-    # with tab2:
-    #     st.subheader("RAGAS Evaluation Dashboard")
-    #     st.write("Quality scores for all answered questions. Below threshold = potential issue.")
-
-        # rows = []
-        # history = st.session_state.chat_history
-        # for i, msg in enumerate(history):
-        #     if msg["role"] == "assistant" and msg.get("ragas_scores"):
-        #         s = msg["ragas_scores"]
-        #         if "error" not in s:
-        #             q = history[i-1]["content"] if i > 0 and history[i-1]["role"]=="user" else ""
-        #             rows.append({
-        #                 "Question"        : q[:60]+"..." if len(q)>60 else q,
-        #                 "Faithfulness"    : s.get("faithfulness","-"),
-        #                 "Ans Relevancy"   : s.get("answer_relevancy","-"),
-        #                 "Faithfulness OK" : "✅" if isinstance(s.get("faithfulness"),float) and s["faithfulness"]>=0.7 else "⚠️",
-        #                 "Relevancy OK"    : "✅" if isinstance(s.get("answer_relevancy"),float) and s["answer_relevancy"]>=0.7 else "⚠️",
-        #             })
-
-        # if rows:
-        #     st.dataframe(pd.DataFrame(rows), use_container_width=True)
-        #     st.subheader("Overall Summary")
-        #     c1, c2, c3 = st.columns(3)
-        #     fs = [r["Faithfulness"] for r in rows if isinstance(r["Faithfulness"],float)]
-        #     rs = [r["Ans Relevancy"] for r in rows if isinstance(r["Ans Relevancy"],float)]
-        #     with c1: st.metric("Avg Faithfulness",    f"{sum(fs)/len(fs):.3f}" if fs else "N/A")
-        #     with c2: st.metric("Avg Ans Relevancy",   f"{sum(rs)/len(rs):.3f}" if rs else "N/A")
-        #     with c3:
-        #         passed = sum(1 for r in rows if r["Faithfulness OK"]=="✅" and r["Relevancy OK"]=="✅")
-        #         st.metric("Gate Pass Rate", f"{passed}/{len(rows)}")
-        #
-        #     if all(r["Faithfulness OK"]=="✅" and r["Relevancy OK"]=="✅" for r in rows):
-        #         st.success("✅ All quality gates PASSED — safe to deploy")
-        #     else:
-        #         st.error("❌ Some quality gates FAILED — review before deployment")
-        # else:
-        #     st.info("No evaluations yet. Ask questions in the Chat tab first.")
