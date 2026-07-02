@@ -43,12 +43,10 @@ pc.create_index(
 
 
 def get_nvidia_embeddings() -> NVIDIAEmbeddings:
-
     return NVIDIAEmbeddings(
-        model   = "nvidia/llama-3.2-nemoretriever-300m-embed-v1",
-        api_key = NVIDIA_EMBEDDING_API_KEY,
-        truncate= "NONE",
-
+        model       = "nvidia/llama-nemotron-embed-1b-v2",
+        api_key     = NVIDIA_EMBEDDING_API_KEY,
+        truncate    = "NONE",
     )
     test_vector = embeddings.embed_query("test")
     print(f"✅ Actual embedding dimension: {len(test_vector)}")
